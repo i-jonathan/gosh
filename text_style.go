@@ -7,7 +7,7 @@ import (
 const escape = "\x1b"
 
 const (
-	NONE = iota
+	RESET = iota
 	BOLD
 	_
 	ITALIC
@@ -15,12 +15,48 @@ const (
 	_
 	_
 	INVERT
-	RED = iota + 23
+	_
+	CROSSED
+)
+
+const (
+	RED = iota + 31
 	GREEN
 	YELLOW
 	BLUE
 	PURPLE
 	CYAN
+	WHITE
+)
+
+const (
+	HRED = iota + 90
+	HGREEN
+	HYELLOW
+	HBLUE
+	HPURPLE
+	HCYAN
+	HWHITE
+)
+
+const (
+	BGRED = iota + 41
+	BGGREEN
+	BGYELLOW
+	BGBLUE
+	BGPURPLE
+	BGCYAN
+	BGWHITE
+)
+
+const (
+	BGHRED = iota + 100
+	BGHGREEN
+	BGHYELLOW
+	BGHBLUE
+	BGHPURPLE
+	BGHCYAN
+	BGHWHITE
 )
 
 func getTextFormat(code int) string {
@@ -28,5 +64,5 @@ func getTextFormat(code int) string {
 }
 
 func formatText(color int, text string) string {
-	return getTextFormat(color) + text + getTextFormat(NONE)
+	return getTextFormat(color) + text + getTextFormat(RESET)
 }
