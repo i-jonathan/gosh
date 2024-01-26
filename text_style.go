@@ -8,7 +8,14 @@ const escape = "\x1b"
 
 const (
 	NONE = iota
-	RED
+	BOLD
+	_
+	ITALIC
+	UNDERLINE
+	_
+	_
+	INVERT
+	RED = iota + 23
 	GREEN
 	YELLOW
 	BLUE
@@ -16,10 +23,10 @@ const (
 	CYAN
 )
 
-func getColor(code int) string {
+func getTextFormat(code int) string {
 	return fmt.Sprintf("%s[%dm", escape, code)
 }
 
 func formatText(color int, text string) string {
-	return getColor(color) + text + getColor(NONE)
+	return getTextFormat(color) + text + getTextFormat(NONE)
 }
