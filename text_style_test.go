@@ -4,25 +4,30 @@ import (
 	"testing"
 )
 
-type colorTest struct {
+type formatTest struct {
 	code     int
 	expected string
 }
 
-type textColorTest struct {
+type textFormatTest struct {
 	color              int
 	text, expectedText string
 }
 
-func TestGetColor(t *testing.T) {
-	colorTests := []colorTest{
-		{0, "\x1b[0m"},
-		{31, "\x1b[31m"},
-		{32, "\x1b[32m"},
-		{33, "\x1b[33m"},
-		{34, "\x1b[34m"},
-		{35, "\x1b[35m"},
-		{36, "\x1b[36m"},
+func TestGetTextFormat(t *testing.T) {
+	colorTests := []formatTest{
+		{RESET, "\x1b[0m"},
+		{BOLD, "\x1b[1m"},
+		{ITALIC, "\x1b[3m"},
+		{UNDERLINE, "\x1b[4m"},
+		{INVERT, "\x1b[7m"},
+		{CROSSED, "\x1b[9m"},
+		{RED, "\x1b[31m"},
+		{GREEN, "\x1b[32m"},
+		{YELLOW, "\x1b[33m"},
+		{BLUE, "\x1b[34m"},
+		{PURPLE, "\x1b[35m"},
+		{CYAN, "\x1b[36m"},
 	}
 
 	for _, test := range colorTests {
@@ -33,18 +38,26 @@ func TestGetColor(t *testing.T) {
 }
 
 func TestFormatText(t *testing.T) {
-	textColorTests := []textColorTest{
-		{0, "Reset", "\x1b[0mReset\x1b[0m"},
-		{31, "Red", "\x1b[31mRed\x1b[0m"},
-		{32, "Green", "\x1b[32mGreen\x1b[0m"},
-		{33, "Yellow", "\x1b[33mYellow\x1b[0m"},
-		{34, "Blue", "\x1b[34mBlue\x1b[0m"},
-		{35, "Purple", "\x1b[35mPurple\x1b[0m"},
-		{36, "Cyan", "\x1b[36mCyan\x1b[0m"},
+	textColorTests := []textFormatTest{
+		{RESET, "Reset", "\x1b[0mReset\x1b[0m"},
+		{BOLD, "Bold", "\x1b[1mBold\x1b[0m"},
+		{ITALIC, "Italics", "\x1b[3mItalics\x1b[0m"},
+		{UNDERLINE, "Underline", "\x1b[4mUnderline\x1b[0m"},
+		{INVERT, "Invert", "\x1b[7mInvert\x1b[0m"},
+		{CROSSED, "Crossed", "\x1b[9mCrossed\x1b[0m"},
+		{RED, "RedText", "\x1b[31mRedText\x1b[0m"},
+		{GREEN, "GreenText", "\x1b[32mGreenText\x1b[0m"},
+		{YELLOW, "YellowText", "\x1b[33mYellowText\x1b[0m"},
+		{BLUE, "BlueText", "\x1b[34mBlueText\x1b[0m"},
+		{PURPLE, "PurpleText", "\x1b[35mPurpleText\x1b[0m"},
+		{CYAN, "CyanText", "\x1b[36mCyanText\x1b[0m"},
+		{WHITE, "WhiteText", "\x1b[37mWhiteText\x1b[0m"},
 	}
 
 	for _, test := range textColorTests {
-		if output := formatText(test.color, test.text); output != test.expectedText {
+		output := formatText(test.color, test.text)
+		t.Log(output)
+		if output != test.expectedText {
 			t.Errorf("Output %q is different from expectation %q", output, test.expectedText)
 		}
 	}
